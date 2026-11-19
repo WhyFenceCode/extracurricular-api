@@ -1,4 +1,4 @@
-# Human-verified corrections and additions, keyed by item id (see site/v1/queens/index.json).
+# Human-verified corrections and additions, keyed by item id (see site/v1/queens/all.json).
 # Use this for facts the listings don't state: time commitment, meeting cadence,
 # eligibility, application windows. Every override shows up in the item's
 # `provenance` with method "override" and your `note` as evidence, so add a note
@@ -17,4 +17,11 @@
 #   eligibility: {first_year: friendly, years: [1, 2, 3, 4]}   # first_year: focused / friendly / no
 #   add_tags: [rover]
 #   note: "QSET recruitment post, Sept 2026"
+#
+# Removal request (privacy.html promises these stick): drops the item from every endpoint,
+# now and after future scrapes. Only `exclude` and `note` are allowed on such an entry.
+#
+# ams-some-club:
+#   exclude: true
+#   note: "removal requested by club exec, issue #12"
 {}

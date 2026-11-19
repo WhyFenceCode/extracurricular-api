@@ -119,6 +119,25 @@ engsoc-qset:
 **Remember to expire time-sensitive overrides.** `applications_open: true` stays true until you
 remove it. Review the file at the start and end of each recruitment season.
 
+### Removal requests
+
+The site's privacy page (`src/ecapi/static/privacy.html`) tells clubs they can ask for a correction
+or removal by opening a GitHub issue, and that removals stick. To honour one:
+
+```yaml
+ams-some-club:
+  exclude: true
+  note: "removal requested by club exec, issue #12"
+```
+
+The item disappears from every endpoint on the next build (push to deploy) and stays out after
+future scrapes. Keep the entry: deleting it would bring the item back. An excluded id that later
+vanishes from its source doesn't cause an error.
+
+If you change what the site or scraper collects (adding analytics, a form, or a source that includes
+personal details), **update `privacy.html`** and its "Last updated" date. A test fails if either page
+starts loading anything from another site.
+
 ## How values get decided
 
 - `inferred` values come from rules in `src/ecapi/infer.py` (hours, meeting cadence, first-year

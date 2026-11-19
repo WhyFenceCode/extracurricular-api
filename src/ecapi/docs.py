@@ -149,6 +149,10 @@ The same information is available as JSON from the API itself:
 | Fields | [`contracts/{V}.json`](../contracts/{V}.json) in this repository (machine-readable contract) |
 
 **Rule of thumb:** `null` always means *unknown*. Nothing in this API is guessed.
+
+**Privacy:** the API collects nothing about you (no cookies, analytics or keys), and publishes only
+club-level information. See `privacy.html` on the site for details, including how to request a
+correction or removal.
 """
 
 

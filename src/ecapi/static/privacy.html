@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · Extracurricular API</title>
+<style>
+  :root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a65; --line:#e3e1da; --accent:#2f5d8a; --code:#f1efe8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16171a; --fg:#e8e6e1; --muted:#9a988f; --line:#2c2d31; --accent:#8db7e0; --code:#202125; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, Segoe UI, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; } h2 { font-size: 1.1rem; margin-top: 32px; }
+  p.lede, .muted { color: var(--muted); }
+  code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .88rem; background: var(--code); border-radius: 4px; padding: 1px 5px; }
+  a { color: var(--accent); }
+  ul { padding-left: 1.2rem; } li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="./">← Extracurricular API</a></p>
+  <h1>Privacy</h1>
+  <p class="lede">Last updated 19 November 2026.</p>
+
+  <h2>The short version</h2>
+  <p>This site and its API don't collect anything about you. There are no accounts, cookies, analytics,
+  trackers, ads, forms, or third-party scripts or fonts. The page you're reading and the query builder
+  only load files from this same site.</p>
+
+  <h2>Using the site and the API</h2>
+  <ul>
+    <li><strong>No cookies or local storage.</strong> Nothing is saved in your browser.</li>
+    <li><strong>No analytics or tracking.</strong> We don't count, profile or identify visitors.</li>
+    <li><strong>The query builder runs in your browser.</strong> Your filter choices aren't sent anywhere.
+      The page just requests the matching public JSON file from this site.</li>
+    <li><strong>No API keys or sign-up.</strong> Requests are anonymous downloads of static files.</li>
+  </ul>
+
+  <h2>Hosting (GitHub Pages)</h2>
+  <p>This site is hosted on GitHub Pages. Like any web host, GitHub receives standard request
+  information when you load a page or API file, such as your IP address, browser user-agent and the
+  URL requested, and may keep it for security and operational purposes. We can't see or access those
+  logs. GitHub's handling of that data is covered by the
+  <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a>.</p>
+
+  <h2>The data this API publishes</h2>
+  <p>The API lists student clubs, teams and other extracurriculars, collected from the schools' and
+  student societies' own <strong>public</strong> directories. Each record links back to its original listing.</p>
+  <ul>
+    <li><strong>Collected:</strong> club-level information only. That's the name, the club's own
+      description, category, faculty, public links (website, Instagram) and recruitment status.</li>
+    <li><strong>Not collected:</strong> information about individual people. That means no executive
+      or member names, no personal email addresses or phone numbers, and no photos. Some source pages
+      list executives' names, and we deliberately skip them.</li>
+    <li><strong>How it's collected:</strong> an automated job attempts to refresh the data weekly. It
+      obeys each site's <code>robots.txt</code>, including requested delays between requests, and
+      identifies itself honestly.</li>
+    <li><strong>Accuracy:</strong> descriptions and links are reproduced as the sources publish them.
+      Some fields are inferred from that text, and each record's <code>provenance</code> shows how.
+      Always confirm details on the original listing.</li>
+  </ul>
+
+  <h2>Corrections and removal</h2>
+  <p>If you run a club listed here, or you see something that's wrong, out of date or shouldn't be
+  public, open an issue on <a id="issues" href="#">this project's GitHub repository</a> with the
+  activity's <code>id</code> and what should change. Please don't include personal details in a
+  public issue. If a request is about information that shouldn't be public, say so, and we'll remove
+  the record and keep it out of future updates.</p>
+  <p class="muted">Removing something here doesn't remove it from the original directory. For that,
+  contact the club or the organisation that publishes the directory.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, this page will be updated and the date at the top will change.</p>
+</main>
+<script>
+  // Point to this site's own repository (works for forks too): <owner>.github.io/<repo>/ -> github.com/<owner>/<repo>/issues
+  (function () {
+    var a = document.getElementById("issues"), host = location.hostname, m = host.match(/^([^.]+)\.github\.io$/);
+    var repo = location.pathname.split("/").filter(Boolean)[0];
+    if (m && repo) a.href = "https://github.com/" + m[1] + "/" + repo + "/issues";
+    else a.removeAttribute("href");
+  })();
+</script>
+</body>
+</html>

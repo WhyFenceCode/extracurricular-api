@@ -255,8 +255,11 @@ deprecation details for the others. It's the only path without a version prefix,
   how fresh it actually is.
 - **Accuracy:** descriptions and links are the clubs' own, as published. Always confirm deadlines
   and requirements on the `listing_url` before relying on them.
-- **No personal data:** no executive names or personal emails, only public club pages and links.
-- **Something wrong or missing?** Open an issue on this repository with the activity `id`.
+- **Privacy:** the site and API collect nothing about you: no cookies, analytics or tracking. The
+  data is club-level only, with no executive names, personal emails or photos. See the
+  [privacy page](src/ecapi/static/privacy.html) (published as `privacy.html` on the site).
+- **Something wrong, or should something be removed?** Open an issue on this repository with the
+  activity `id`. Removed items stay out of future updates.
 
 ## License
 

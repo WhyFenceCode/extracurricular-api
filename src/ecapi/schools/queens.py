@@ -340,6 +340,15 @@ _OVERRIDABLE = {
 
 
 def _apply_overrides(items: list[Item], overrides: dict[str, dict]) -> None:
+    # `exclude: true` removes an item from every endpoint, now and in future scrapes (e.g. a
+    # removal request). An excluded id may vanish from its source later, so it's allowed to be unknown.
+    excluded = {k for k, ov in overrides.items() if (ov or {}).get("exclude")}
+    for k in excluded:
+        if set(overrides[k]) - {"exclude", "note"}:
+            raise ValueError(f"{k}: an excluded item can only have 'exclude' and 'note'")
+    items[:] = [i for i in items if i.id not in excluded]
+    overrides = {k: v for k, v in overrides.items() if k not in excluded}
+
     by_id = {i.id: i for i in items}
     unknown = set(overrides) - set(by_id)
     if unknown:
