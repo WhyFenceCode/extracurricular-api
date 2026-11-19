@@ -146,14 +146,57 @@ def mentions_graduate_students(text: str) -> tuple[bool | None, str | None]:
 
 
 # --- applications ----------------------------------------------------------------
-_OPEN = re.compile(r"\b(?:applications? (?:are |is )?(?:now )?open|now (?:recruiting|hiring|accepting applications)|accepting (?:new )?(?:members|applications) (?:year[- ]round|all year|at any time|anytime)|join (?:at )?any ?time)\b", re.I)
+ROLLING = "rolling"  # application_deadline value: always open, join whenever
+
+# Explicitly closed. Checked first.
+_APP_CLOSED = [
+    re.compile(r"\b(?:applications?|recruitment|hiring|registration|sign[- ]?ups?) (?:are |is |has )?(?:now |currently )?(?:closed|over|ended)\b", re.I),
+    re.compile(r"\bnot (?:currently |presently )?(?:recruiting|hiring|accepting (?:new )?(?:members|applications))\b", re.I),
+]
+# Always open: you can show up or join whenever, with no application window.
+_APP_ROLLING = [
+    re.compile(r"\b(?:join|sign up|register|come|attend|drop (?:in|by)|stop by)\b[^.]{0,30}\b(?:any ?time|at any time|year[- ]round|all year(?: long)?|whenever|any week)\b", re.I),
+    re.compile(r"\baccept(?:s|ing)? (?:new )?(?:members|applications) (?:year[- ]round|all year|at any time|anytime|on a rolling basis)\b", re.I),
+    re.compile(r"\b(?:rolling (?:basis|admissions?|applications?|membership))\b", re.I),
+    re.compile(r"\bdrop[- ]in(?:s| sessions?| nights?| hours?)?\b|\bdrop by\b|\bstop by\b", re.I),
+    re.compile(r"\bopen (?:invit(?:e|ation)s?|door|membership)\b", re.I),
+    re.compile(r"\bno (?:applications?|tryouts?|try-outs?|auditions?|sign[- ]ups?) (?:is |are )?(?:required|needed|necessary)\b|\bno (?:tryouts?|try-outs?|auditions?)\b", re.I),
+    re.compile(r"\b(?:everyone|anyone|all) (?:is |are )?(?:always )?welcome\b", re.I),
+]
+# Open now: an invitation to join, but nothing says it's year-round.
+_APP_OPEN = [
+    re.compile(r"\b(?:applications? (?:are |is )?(?:now )?open|now (?:recruiting|hiring|accepting (?:applications|new members)))\b", re.I),
+    re.compile(r"\bjoin us\b|\bcome (?:check us out|join us|out and join)\b", re.I),
+    re.compile(r"\bjoin (?:our|the) (?:team|club|community|group|family|crew|society|association)\b", re.I),
+    re.compile(r"\bnew members (?:are )?(?:always )?welcome\b|\bwelcom\w* new members\b", re.I),
+    re.compile(r"\b(?:join|sign up|become a member)\b[^.]{0,20}\b(?:today|now)\b", re.I),
+    re.compile(r"\bopen to (?:everyone|anyone|the public|all(?: [\w']+)? students)\b", re.I),
+]
+
+
+def application_status(text: str) -> tuple[bool | None, str | None, str | None]:
+    """(applications_open, application_deadline, evidence).
+
+    closed  -> (False, None, …)        e.g. "recruitment is closed"
+    rolling -> (True, "rolling", …)    e.g. "drop by any week", "no tryouts", "everyone welcome"
+    open    -> (True, None, …)         e.g. "join us", "join our team"
+    unknown -> (None, None, None)
+    """
+    for rx in _APP_CLOSED:
+        if m := rx.search(text):
+            return False, None, _snippet(text, m)
+    for rx in _APP_ROLLING:
+        if m := rx.search(text):
+            return True, ROLLING, _snippet(text, m)
+    for rx in _APP_OPEN:
+        if m := rx.search(text):
+            return True, None, _snippet(text, m)
+    return None, None, None
 
 
 def applications_open(text: str) -> tuple[bool | None, str | None]:
-    m = _OPEN.search(text)
-    if m:
-        return True, _snippet(text, m)
-    return None, None
+    v, _deadline, ev = application_status(text)
+    return v, ev
 
 
 # --- tags --------------------------------------------------------------------------

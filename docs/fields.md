@@ -15,7 +15,7 @@ Paths use dots for nested objects and `[]` for items inside a list.
 | `faculty` | string | `arts-science`, `business`, `education`, `engineering`, `general`, `graduate`, `health-sciences`, `law` | Faculty that runs it, or `general` when it is open to students from any faculty. |
 | `subfaculty` | string or null |  | Programme or school inside the faculty, e.g. `civil-engineering`, `computing`, `commerce`. null when it is faculty-wide. Valid values per faculty are listed in filters.md. |
 | `applications_open` | boolean or null |  | true while applications are being accepted; false when its recruitment board is active but shows nothing for it; null when unknown. |
-| `application_deadline` | string or null |  | Application deadline as `YYYY-MM-DD`, when known. |
+| `application_deadline` | string or null |  | When applications close: a date as `YYYY-MM-DD`, or `rolling` when it's always open (join or drop by any time, no application window). null when unknown. |
 | `eligibility` | object |  | Who can join. |
 | `eligibility.first_year` | string or null | `focused`, `friendly`, `no` | Whether first-year students can take part. `focused`: made specifically for first-years. `friendly`: first-years can join. `no`: not open to first-years. null: the source doesn't say. |
 | `eligibility.first_year_friendly` | boolean or null |  | `first_year` as a boolean: true for focused or friendly, false for no, null when unknown. |

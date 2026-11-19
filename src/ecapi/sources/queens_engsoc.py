@@ -30,6 +30,20 @@ def _wayback(url: str) -> str:
     return f"https://web.archive.org/web/{dt.date.today():%Y%m%d}id_/{url}"
 
 
+def _reason(err: Exception) -> str:
+    """A generic, machine-independent reason. Raw OS error text (errno codes, local
+    resolver details) would leak what machine ran the scrape into committed snapshots."""
+    if isinstance(err, RobotsDisallowed):
+        return "disallowed by robots.txt"
+    if isinstance(err, httpx.HTTPStatusError):
+        return f"HTTP {err.response.status_code}"
+    if isinstance(err, httpx.ConnectError):
+        return "DNS lookup failed" if "getaddrinfo" in str(err) or "Name or service" in str(err) else "connection failed"
+    if isinstance(err, httpx.TimeoutException):
+        return "timed out"
+    return type(err).__name__
+
+
 def fetch(client: PoliteClient) -> dict[str, Any]:
     pages = {}
     for kind, url in PAGES.items():
@@ -43,7 +57,7 @@ def fetch(client: PoliteClient) -> dict[str, Any]:
                 "via": "wayback",
                 "url": url,
                 "archived_at": r.headers.get("Memento-Datetime"),
-                "live_error": str(live_err)[:200],
+                "live_error": _reason(live_err),
             }
     return {"pages": pages, "via": ",".join(sorted({p["via"] for p in pages.values()})), "origin_url": BASE}
 

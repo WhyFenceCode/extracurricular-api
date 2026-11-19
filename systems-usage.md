@@ -99,7 +99,7 @@ Most directories never state hours, meeting cadence or application windows. When
 ```yaml
 engsoc-qset:
   applications_open: true
-  application_deadline: "2026-09-20"
+  application_deadline: "2026-09-20"          # or "rolling" for always open
   time_commitment: {hours_per_week_min: 4, hours_per_week_max: 8}
   meetings: {per_week: 1}                     # 0.5 biweekly, 2 twice a week, 0.25 monthly
   eligibility: {first_year: friendly}         # focused | friendly | no
@@ -150,8 +150,8 @@ v1/{school}/filter/fac-*/sub-*/type-*/app-*/first-*.json
 ```
 
 Every filter combination is pre-generated, because GitHub Pages can only serve files. The count is
-(faculty/subfaculty pairs) × 8 types × 4 app values × 5 first values. For Queen's that's 21 × 160 =
-3,360 files, about 15–30 MB depending on item count (Pages allows 1 GB). Every faculty and subfaculty declared in `SCHOOL_INFO` gets endpoints
+(faculty/subfaculty pairs) × 8 types × 5 app values × 5 first values. For Queen's that's 21 × 200 =
+4,200 files, about 15–30 MB depending on item count (Pages allows 1 GB). Every faculty and subfaculty declared in `SCHOOL_INFO` gets endpoints
 even with zero items, so URLs stay stable as sources come and go.
 
 ## Public docs (`docs/`)
@@ -240,7 +240,7 @@ Notes:
 
 - Every item in `all.json` passes the schema, ids are unique, and each `item/{id}.json` matches.
 - **Every** filter file exists and contains exactly what a separate, plain predicate in
-  `verify.py` says it should, in the same order. That's 3,360 files cross-checked on every deploy.
+  `verify.py` says it should, in the same order. That's 4,200 files cross-checked on every deploy.
 - No stray filter files exist, and the subfaculty tree in `info.json` matches what's declared and used.
 - `tags.json` counts and every `tag/{tag}.json` are correct.
 - Every example URL in `v1/index.json` actually exists.

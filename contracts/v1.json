@@ -30,6 +30,7 @@
   "app": [
    "app-any",
    "app-open",
+   "app-rolling",
    "app-closed",
    "app-unknown"
   ],

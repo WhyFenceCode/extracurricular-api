@@ -73,7 +73,8 @@ Always give all five segments, in this order. Each segment names what it filters
 | | | `type-committee` | student-government committee or operational team |
 | | | `type-conference` | student-run conference |
 | | | `type-competition` | student-run competition |
-| 4 | `app-` applications | `app-open` | accepting applications right now |
+| 4 | `app-` applications | `app-open` | accepting applications right now (**includes** `app-rolling`) |
+| | | `app-rolling` | always open: join or drop by any time, no application window |
 | | | `app-closed` | not accepting right now |
 | | | `app-unknown` | the source doesn't say |
 | | | `app-any` | don't filter |
@@ -92,6 +93,7 @@ but `fac-any/sub-civil-engineering` and `fac-business/sub-civil-engineering` ret
 |---|---|
 | All engineering design teams | `v1/queens/filter/fac-engineering/sub-any/type-design-team/app-any/first-any.json` |
 | Anything accepting applications that a first-year can join | `v1/queens/filter/fac-any/sub-any/type-any/app-open/first-friendly.json` |
+| Things you can just show up to, any time | `v1/queens/filter/fac-any/sub-any/type-any/app-rolling/first-any.json` |
 | Things made for first-years | `v1/queens/filter/fac-any/sub-any/type-any/app-any/first-focused.json` |
 | Commerce conferences | `v1/queens/filter/fac-business/sub-commerce/type-conference/app-any/first-any.json` |
 | Computing clubs | `v1/queens/filter/fac-arts-science/sub-computing/type-any/app-any/first-any.json` |
@@ -143,7 +145,7 @@ Every response is an object with the same envelope:
   "faculty": "engineering",                  // "general" = open to any faculty
   "subfaculty": null,                        // e.g. "civil-engineering", "computing", "commerce"
   "applications_open": null,                 // true | false | null (unknown)
-  "application_deadline": null,              // "YYYY-MM-DD" | null
+  "application_deadline": null,              // "YYYY-MM-DD" | "rolling" (always open) | null
   "eligibility": {
     "first_year": "friendly",                // "focused" | "friendly" | "no" | null
     "first_year_friendly": true,             // same thing as a boolean (focused counts as true)

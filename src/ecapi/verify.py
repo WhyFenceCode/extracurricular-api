@@ -38,7 +38,10 @@ def matches(item: dict, q: dict[str, str]) -> bool:
     if typ != "any" and item["type"] != typ:
         return False
     status = {True: "open", False: "closed", None: "unknown"}[item["applications_open"]]
-    if app != "any" and status != app:
+    if app == "rolling":
+        if item["application_deadline"] != "rolling":
+            return False
+    elif app != "any" and status != app:
         return False
     fy = item["eligibility"]["first_year"]
     if first == "friendly":

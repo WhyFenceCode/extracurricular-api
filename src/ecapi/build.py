@@ -32,13 +32,14 @@ from .schema import API_VERSION, Item, ItemType
 V = f"v{API_VERSION}"  # every path of the current API version lives under this prefix
 
 DIMENSIONS = ["faculty", "subfaculty", "type", "app", "first"]
-APP_VALUES = ["app-any", "app-open", "app-closed", "app-unknown"]
+APP_VALUES = ["app-any", "app-open", "app-rolling", "app-closed", "app-unknown"]
 FIRST_VALUES = ["first-any", "first-focused", "first-friendly", "first-no", "first-unknown"]
 TYPE_VALUES = ["type-any"] + [f"type-{t.value}" for t in ItemType]
 FILTER_TEMPLATE = V + "/{school}/filter/fac-{faculty}/sub-{subfaculty}/type-{type}/app-{app}/first-{first}.json"
 
 VALUE_DOCS = {
-    "app-open": "applications are being accepted",
+    "app-open": "applications are being accepted (includes app-rolling)",
+    "app-rolling": "always open: join or drop by any time, no application window",
     "app-closed": "applications are not being accepted right now",
     "app-unknown": "the source doesn't say",
     "first-focused": "aimed specifically at first-year students",
@@ -76,8 +77,12 @@ def endpoint_guide(school: str = "{school}") -> dict[str, dict[str, str]]:
     }
 
 
-def app_value(open_: bool | None) -> str:
-    return "app-unknown" if open_ is None else ("app-open" if open_ else "app-closed")
+def app_values(open_: bool | None, deadline: str | None) -> set[str]:
+    if open_ is None:
+        return {"app-unknown"}
+    if not open_:
+        return {"app-closed"}
+    return {"app-open", "app-rolling"} if deadline == "rolling" else {"app-open"}  # rolling implies open
 
 
 def first_values(first_year: str | None) -> set[str]:
@@ -94,7 +99,7 @@ def item_keys(item: Item) -> dict[str, set[str]]:
         "faculty": {"fac-any", f"fac-{item.faculty}"},
         "subfaculty": {"sub-any"} | ({f"sub-{item.subfaculty}"} if item.subfaculty else set()),
         "type": {"type-any", f"type-{item.type.value}"},
-        "app": {"app-any", app_value(item.applications_open)},
+        "app": {"app-any"} | app_values(item.applications_open, item.application_deadline),
         "first": {"first-any"} | first_values(item.eligibility.first_year),
     }
 

@@ -159,8 +159,9 @@ class Item(BaseModel):
     applications_open: bool | None = Field(default=None, description=(
         "true while applications are being accepted; false when its recruitment board is active but shows nothing "
         "for it; null when unknown."))
-    application_deadline: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$", description=(
-        "Application deadline as `YYYY-MM-DD`, when known."))
+    application_deadline: str | None = Field(default=None, pattern=r"^(?:\d{4}-\d{2}-\d{2}|rolling)$", description=(
+        "When applications close: a date as `YYYY-MM-DD`, or `rolling` when it's always open (join or drop by "
+        "any time, no application window). null when unknown."))
     eligibility: Eligibility = Field(default_factory=Eligibility, description="Who can join.")
     time_commitment: TimeCommitment = Field(default_factory=TimeCommitment, description="Expected hours per week.")
     meetings: Meetings = Field(default_factory=Meetings, description="How often it meets.")
@@ -180,6 +181,13 @@ class Item(BaseModel):
     provenance: dict[str, Provenance] = Field(default_factory=dict, description=(
         "For each field not copied directly from the listing, how its value was decided. Keyed by field path, "
         "e.g. `eligibility.first_year`, `meetings`, `applications_open`."))
+
+    def model_post_init(self, _ctx) -> None:
+        # "rolling" means always open; a rolling deadline on a closed item is a contradiction.
+        if self.application_deadline == "rolling":
+            if self.applications_open is False:
+                raise ValueError("application_deadline 'rolling' contradicts applications_open false")
+            self.applications_open = True
 
     @field_validator("tags")
     @classmethod

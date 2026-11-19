@@ -57,12 +57,23 @@ Valid pairs are listed in the table above, and in `info.json` under `filters.sub
 | Value | Meaning |
 |---|---|
 | `app-any` | don't filter on this |
-| `app-open` | applications are being accepted |
+| `app-open` | applications are being accepted (includes app-rolling) |
+| `app-rolling` | always open: join or drop by any time, no application window |
 | `app-closed` | applications are not being accepted right now |
 | `app-unknown` | the source doesn't say |
 
-`app-closed` is only used when a recruitment board is active but shows nothing for that
-activity. An empty or missing board leaves it `app-unknown`.
+How it's decided, strongest evidence first:
+
+1. An active recruitment posting for the activity → `app-open`.
+2. The listing's own words:
+   - "drop by", "drop-in", "open invite", "join any time", "year-round", "no tryouts", "everyone welcome" → `app-rolling`, with `application_deadline: "rolling"`;
+   - "join us", "join our team", "new members welcome", "applications are open" → `app-open`;
+   - "applications are closed", "not currently recruiting" → `app-closed`.
+3. A recruitment board that is active but shows nothing for the activity → `app-closed`.
+4. Otherwise `app-unknown`.
+
+`app-open` **includes** everything `app-rolling` matches. Each item's
+`provenance.applications_open.evidence` quotes the words or posting that decided it.
 
 ## 5. `first-` first-year students
 

@@ -131,6 +131,34 @@ def test_endpoint_names(tmp_path, snapshots):
     assert _get(tmp_path, "v1/queens/all.json")["endpoint"] == "all"
 
 
+def test_application_status_from_listing_text(tmp_path, snapshots):
+    items = {i.id: i for i in _build(tmp_path, snapshots)}
+    g = items["ams-grad-chess"]  # "Drop by any week!"
+    assert (g.applications_open, g.application_deadline) == (True, "rolling")
+    assert g.provenance["applications_open"].method.value == "inferred"
+    assert "Drop by any week" in g.provenance["application_deadline"].evidence
+    # a posting still wins, and a silent listing stays unknown
+    assert items["engsoc-qset"].provenance["applications_open"].method.value == "source"
+    assert items["ams-youreka-kingston"].applications_open is None
+
+    f = "v1/queens/filter/fac-any/sub-any/type-any"
+    assert _ids(_get(tmp_path, f"{f}/app-rolling/first-any.json")) == ["ams-grad-chess"]
+    opened = _ids(_get(tmp_path, f"{f}/app-open/first-any.json"))
+    assert "ams-grad-chess" in opened and "engsoc-qset" in opened  # app-open includes rolling
+
+
+def test_rolling_override_and_contradiction(snapshots):
+    items = {i.id: i for i in queens.build_items(snapshots, {
+        "ams-youreka-kingston": {"application_deadline": "rolling", "note": "club exec, Nov 2026"}})}
+    y = items["ams-youreka-kingston"]
+    assert (y.applications_open, y.application_deadline) == (True, "rolling")  # rolling implies open
+    with pytest.raises(Exception, match="contradicts"):
+        queens.build_items(snapshots, {"ams-youreka-kingston": {
+            "application_deadline": "rolling", "applications_open": False}})
+    with pytest.raises(Exception, match="pattern"):
+        queens.build_items(snapshots, {"ams-youreka-kingston": {"application_deadline": "soon"}})
+
+
 def test_empty_breezy_means_unknown(tmp_path, snapshots):
     snapshots["queens-engsoc-breezy"]["raw"]["postings"] = []
     items = {i.id: i for i in _build(tmp_path, snapshots)}

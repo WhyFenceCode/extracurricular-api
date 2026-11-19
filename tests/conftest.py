@@ -33,7 +33,7 @@ AMS_RAW = {
             "id": 3, "slug": "grad-chess", "link": "https://www.myams.org/club/grad-chess/",
             "modified": None, "club-categories": [],
             "title": {"rendered": "Graduate Students Chess Club"},
-            "content": {"rendered": "<p>Casual board games.</p>"},
+            "content": {"rendered": "<p>Casual board games. Drop by any week!</p>"},
         },
         {
             "id": 4, "slug": "frosh-council", "link": "https://www.myams.org/club/frosh-council/",

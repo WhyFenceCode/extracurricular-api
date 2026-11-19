@@ -257,21 +257,26 @@ def _item(rec: dict[str, Any], src: SourceRef, item_id: str, typ: ItemType, facu
     if subfaculty:
         prov["subfaculty"] = Provenance(method=Method.derived, evidence=f"discipline club: {rec['name']}")
 
-    # applications_open
-    open_, apply_url = None, rec["website"]
-    if postings is not None:
-        open_ = bool(postings)
-        if postings:
-            apply_url = postings[0]["url"]
-            prov["applications_open"] = Provenance(
-                method=Method.source, evidence="; ".join(p["name"] for p in postings[:5]) + f" ({posting_source})")
-        else:
-            prov["applications_open"] = Provenance(
-                method=Method.source, evidence=f"no active posting ({posting_source})")
-    else:
-        open_, ev = infer.applications_open(text)
-        if ev:
-            prov["applications_open"] = Provenance(method=Method.inferred, evidence=ev)
+    # applications_open / application_deadline, strongest evidence first:
+    #   1. an active recruitment posting for it            -> open (source)
+    #   2. the listing's own words (closed / rolling / open) -> inferred
+    #   3. an active board with nothing for it              -> closed (source)
+    #   4. otherwise                                        -> unknown
+    open_, deadline, apply_url = None, None, rec["website"]
+    text_open, text_deadline, text_ev = infer.application_status(f"{rec['name']}. {text}")
+    if postings:
+        open_ = True
+        apply_url = postings[0]["url"]
+        prov["applications_open"] = Provenance(
+            method=Method.source, evidence="; ".join(p["name"] for p in postings[:5]) + f" ({posting_source})")
+    elif text_ev:
+        open_, deadline = text_open, text_deadline
+        prov["applications_open"] = Provenance(method=Method.inferred, evidence=text_ev)
+        if deadline:
+            prov["application_deadline"] = Provenance(method=Method.inferred, evidence=text_ev)
+    elif postings is not None:
+        open_ = False
+        prov["applications_open"] = Provenance(method=Method.source, evidence=f"no active posting ({posting_source})")
 
     # eligibility
     fy, ev = infer.first_year_status(f"{rec['name']}. {text}")
@@ -313,6 +318,7 @@ def _item(rec: dict[str, Any], src: SourceRef, item_id: str, typ: ItemType, facu
         faculty=faculty,
         subfaculty=subfaculty,
         applications_open=open_,
+        application_deadline=deadline,
         eligibility=Eligibility(first_year=fy, years=years, graduate_students=grad),
         time_commitment=TimeCommitment(hours_per_week_min=hrs[0], hours_per_week_max=hrs[1]) if hrs else TimeCommitment(),
         meetings=Meetings(per_week=per_week),
