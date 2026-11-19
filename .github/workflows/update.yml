@@ -1,0 +1,82 @@
+name: Update & deploy API
+
+on:
+  schedule:
+    - cron: "17 9 * * 1"  # Mondays 09:17 UTC (off the hour to avoid the cron rush)
+  workflow_dispatch:
+    inputs:
+      scrape:
+        description: "Scrape sources whose data is older than 3 days (fresher ones are reused)"
+        type: boolean
+        default: true
+      force:
+        description: "Force re-scrape of every source, even fresh ones (AMS's crawl-delay makes this ~40 min)"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths-ignore: ["**.md", "LICENSE"]
+
+permissions:
+  contents: write  # commit refreshed snapshots in data/
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      - name: Test
+        run: pytest -q
+
+      - name: Docs match the code
+        run: python -m ecapi docs --check
+
+      - name: Scrape sources
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scrape)
+        # Snapshots younger than 3 days are reused, so a manual rerun doesn't wait on AMS again.
+        # The weekly schedule always finds week-old data and re-scrapes everything.
+        run: python -m ecapi scrape ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit refreshed snapshots
+        if: github.event_name != 'push'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No source changes."
+          else
+            git commit -m "data: refresh source snapshots ($(date -u +%F))"
+            git push
+          fi
+
+      - name: Build
+        run: python -m ecapi build --out site
+
+      - name: Verify every endpoint
+        run: python -m ecapi verify --out site
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

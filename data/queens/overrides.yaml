@@ -1,0 +1,20 @@
+# Human-verified corrections and additions, keyed by item id (see site/v1/queens/index.json).
+# Use this for facts the listings don't state: time commitment, meeting cadence,
+# eligibility, application windows. Every override shows up in the item's
+# `provenance` with method "override" and your `note` as evidence, so add a note
+# saying where the fact came from.
+#
+# Overridable: name, type, faculty, subfaculty, applications_open, application_deadline,
+#              eligibility, time_commitment, meetings, tags, add_tags, apply_url, description
+#
+# Example:
+#
+# engsoc-qset:
+#   applications_open: true
+#   application_deadline: "2026-09-20"
+#   time_commitment: {hours_per_week_min: 4, hours_per_week_max: 8}
+#   meetings: {per_week: 1}
+#   eligibility: {first_year: friendly, years: [1, 2, 3, 4]}   # first_year: focused / friendly / no
+#   add_tags: [rover]
+#   note: "QSET recruitment post, Sept 2026"
+{}

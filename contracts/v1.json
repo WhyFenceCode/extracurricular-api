@@ -1,0 +1,230 @@
+{
+ "api_version": "1",
+ "paths": [
+  "v1/schools.json",
+  "v1/{school}/all.json",
+  "v1/{school}/filter/fac-{faculty}/sub-{subfaculty}/type-{type}/app-{app}/first-{first}.json",
+  "v1/{school}/info.json",
+  "v1/{school}/item/{id}.json",
+  "v1/{school}/tag/{tag}.json",
+  "v1/{school}/tags.json"
+ ],
+ "filter_dimensions": [
+  "faculty",
+  "subfaculty",
+  "type",
+  "app",
+  "first"
+ ],
+ "filter_values": {
+  "type": [
+   "type-any",
+   "type-club",
+   "type-team",
+   "type-design-team",
+   "type-discipline-club",
+   "type-committee",
+   "type-conference",
+   "type-competition"
+  ],
+  "app": [
+   "app-any",
+   "app-open",
+   "app-closed",
+   "app-unknown"
+  ],
+  "first": [
+   "first-any",
+   "first-focused",
+   "first-friendly",
+   "first-no",
+   "first-unknown"
+  ]
+ },
+ "schools": {
+  "queens": {
+   "fac-arts-science": [
+    "sub-any",
+    "sub-computing"
+   ],
+   "fac-business": [
+    "sub-any",
+    "sub-commerce"
+   ],
+   "fac-education": [
+    "sub-any"
+   ],
+   "fac-engineering": [
+    "sub-any",
+    "sub-chemical-engineering",
+    "sub-civil-engineering",
+    "sub-electrical-computer-engineering",
+    "sub-engineering-physics",
+    "sub-geological-engineering",
+    "sub-mathematics-engineering",
+    "sub-mechanical-engineering",
+    "sub-mechatronics-robotics-engineering",
+    "sub-mining-engineering"
+   ],
+   "fac-general": [
+    "sub-any"
+   ],
+   "fac-graduate": [
+    "sub-any"
+   ],
+   "fac-health-sciences": [
+    "sub-any",
+    "sub-bachelor-health-sciences"
+   ],
+   "fac-law": [
+    "sub-any"
+   ]
+  }
+ },
+ "envelope_keys": [
+  "api_version",
+  "deprecated",
+  "school",
+  "data_as_of",
+  "endpoint"
+ ],
+ "item_fields": {
+  "also_listed_in": {
+   "type": "array<object>"
+  },
+  "also_listed_in.listing_url": {
+   "type": "string"
+  },
+  "also_listed_in.name": {
+   "type": "string"
+  },
+  "also_listed_in.source": {
+   "type": "object"
+  },
+  "also_listed_in.source.id": {
+   "type": "string"
+  },
+  "also_listed_in.source.name": {
+   "type": "string"
+  },
+  "also_listed_in.source.url": {
+   "type": "string"
+  },
+  "api_version": {
+   "type": "string",
+   "enum": [
+    "1"
+   ]
+  },
+  "application_deadline": {
+   "type": "null|string"
+  },
+  "applications_open": {
+   "type": "boolean|null"
+  },
+  "apply_url": {
+   "type": "null|string"
+  },
+  "description": {
+   "type": "string"
+  },
+  "eligibility": {
+   "type": "object"
+  },
+  "eligibility.first_year": {
+   "type": "null|string",
+   "enum": [
+    "focused",
+    "friendly",
+    "no"
+   ]
+  },
+  "eligibility.first_year_friendly": {
+   "type": "boolean|null"
+  },
+  "eligibility.graduate_students": {
+   "type": "boolean|null"
+  },
+  "eligibility.years": {
+   "type": "array<integer>|null"
+  },
+  "faculty": {
+   "type": "string"
+  },
+  "id": {
+   "type": "string"
+  },
+  "links": {
+   "type": "object"
+  },
+  "links.instagram": {
+   "type": "null|string"
+  },
+  "links.website": {
+   "type": "null|string"
+  },
+  "listing_url": {
+   "type": "string"
+  },
+  "meetings": {
+   "type": "object"
+  },
+  "meetings.frequency": {
+   "type": "null|string"
+  },
+  "meetings.per_week": {
+   "type": "null|number"
+  },
+  "name": {
+   "type": "string"
+  },
+  "provenance": {
+   "type": "object"
+  },
+  "school": {
+   "type": "string"
+  },
+  "source": {
+   "type": "object"
+  },
+  "source.id": {
+   "type": "string"
+  },
+  "source.name": {
+   "type": "string"
+  },
+  "source.url": {
+   "type": "string"
+  },
+  "source_updated_at": {
+   "type": "null|string"
+  },
+  "subfaculty": {
+   "type": "null|string"
+  },
+  "tags": {
+   "type": "array<string>"
+  },
+  "time_commitment": {
+   "type": "object"
+  },
+  "time_commitment.hours_per_week_max": {
+   "type": "null|number"
+  },
+  "time_commitment.hours_per_week_min": {
+   "type": "null|number"
+  },
+  "type": {
+   "type": "string",
+   "enum": [
+    "club",
+    "committee",
+    "competition",
+    "conference",
+    "design-team",
+    "discipline-club",
+    "team"
+   ]
+  }
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "fetched_at": "2026-11-19T06:49:04+00:00",
+ "origin_url": "https://compsa.ca/ccr",
+ "raw": {
+  "clubs": [
+   {
+    "description": "We’re a student-run club dedicated to building a community for Black students in technology. We’re here to support Black students in tech by offering mentorship, networking, and opportunities for excellence, while celebrating diversity and innovation",
+    "exec_contact_email": "qbcss2023@gmail.com",
+    "id": "2e021040-554f-45f9-aebc-6469dc03ab4f",
+    "instagram": "https://www.instagram.com/queensblacktech/#",
+    "linkedin": null,
+    "logo_url": "logos/qbt.jpg\r\n",
+    "name": "Queen's Black Tech",
+    "slug": null,
+    "website_url": "[PLACEHOLDER URL]"
+   },
+   {
+    "description": "The Queen's Data Analytics Association is focused on informing students about how data and analytics can be used to solve real-world problems. We offer educational materials, speaker nights, workshops, and professional networking events.",
+    "exec_contact_email": "analytics@clubs.queensu.ca",
+    "id": "07fada0b-a767-4a02-98a6-c8e0ccbf1c14",
+    "instagram": "https://www.instagram.com/queensdata",
+    "linkedin": "https://www.linkedin.com/company/queen's-data-analytics-association/",
+    "logo_url": "logos/qdaa.jpg\r\n",
+    "name": "Queen's Data Analytics Association",
+    "slug": null,
+    "website_url": "https://qdaa.github.io"
+   },
+   {
+    "description": "Queen’s Game Development Club is dedicated to enriching students’ experience in all areas of game development.",
+    "exec_contact_email": "qugamedev@clubs.queensu.ca",
+    "id": "24e2e6c5-a961-41b7-8cb5-34dcaa0f51d0",
+    "instagram": "https://www.instagram.com/qugamedev/",
+    "linkedin": "https://www.linkedin.com/company/gugamedev/",
+    "logo_url": "logos/qgdc.jpg\r\n",
+    "name": "Queen's Game Development Club",
+    "slug": null,
+    "website_url": "https://www.qgdc.ca"
+   },
+   {
+    "description": "We’re a diverse team of undergraduate students with a burning (ha, get it?) passion for rocketry and all things space. Every year, we collaborate to design, build, test, and launch a rocket up to 30,000ft to compete with schools across the world. Our goal is not only to launch and safely recover our rocket, but provide every member on this team the opportunity to learn about rocketry, space systems design, and engineering, all while meeting friends, developing industry-transferrable skills, and working on an incredible cross-disciplinary project.",
+    "exec_contact_email": "qret@engsoc.queensu.ca",
+    "id": "77c93bd1-0aa2-4bf5-bd12-1f4ec10a0e05",
+    "instagram": "https://www.instagram.com/queensrocketry/",
+    "linkedin": "https://www.linkedin.com/company/queensrocketry/",
+    "logo_url": "logos/qret.jpg\r\n",
+    "name": "Queen's Rocket Engineering Team",
+    "slug": null,
+    "website_url": "https://qret.ca"
+   },
+   {
+    "description": "Ratified through the Alma Mater Society (AMS) at Queen's University in Kingston, Ontario, The Queen's Sports Analytics Organization operates as a think tank for the sports analytics community. QSAO covers professional and collegiate sports including Soccer, Baseball, Basketball, Hockey, and Football.",
+    "exec_contact_email": "callummmcintyre@gmail.com",
+    "id": "474e9018-5ef1-4410-8ba9-55cbda630a8b",
+    "instagram": "https://www.instagram.com/qsaoqueens/",
+    "linkedin": "https://www.linkedin.com/company/qsao/",
+    "logo_url": "logos/qsao.jpg\r\n",
+    "name": "Queen's Sports Analytics Organization",
+    "slug": null,
+    "website_url": "https://www.qsao-queens.com"
+   },
+   {
+    "description": "Queen’s Tech and Media Association (QTMA) is Canada’s premier product development club and tech incubator. Over the course of the year, four multi-disciplinary teams of nine primarily Commerce, Computer Science and Engineering students compete to build and launch the best software product.",
+    "exec_contact_email": "19mam37@queensu.ca ",
+    "id": "4830c848-62fd-4ed0-aba8-41b8d5161571",
+    "instagram": "https://www.instagram.com/queenstechmedia/?hl=en",
+    "linkedin": "https://www.linkedin.com/company/qtma/",
+    "logo_url": "logos/qtma.jpg\r\n",
+    "name": "Queen's Tech and Media Association",
+    "slug": null,
+    "website_url": "https://www.qtma.ca"
+   },
+   {
+    "description": "Queen's UX (User Experience) Club is a community for students of all backgrounds, disciplines, and skill levels to explore, learn, and grow in user experience. We aim to connect curious minds through collaborative events, workshops, and projects that inspire better design for all.",
+    "exec_contact_email": "queensuxclub@gmail.com",
+    "id": "d8520e48-9491-4a4d-9b15-894b8b7cbd40",
+    "instagram": "https://www.instagram.com/queens.ux/",
+    "linkedin": "https://www.linkedin.com/company/queens-ux-club/",
+    "logo_url": "logos/qux.jpg\r\n",
+    "name": "Queen's UX Club",
+    "slug": null,
+    "website_url": "https://queensux.club"
+   },
+   {
+    "description": "Queen's Web Development Club is a student run organization that teaches students how to build websites through tutorials, workshops and real practice. For local businesses and clubs. QWEB members are sorted into design teams and then given a real world customer to consult with. The customer plays an integral role while iterating through the development process. Experienced members lead development teams of members of varying abilities. We do both design and coding!",
+    "exec_contact_email": "huytruong.eq@gmail.com",
+    "id": "c65167ff-a905-4d34-bcbb-27dd17a85148",
+    "instagram": "https://www.instagram.com/qweb_club/",
+    "linkedin": "https://www.linkedin.com/company/qweb-queens-university-website-development/",
+    "logo_url": "logos/qweb.jpg\r\n",
+    "name": "Queen's Web Development",
+    "slug": null,
+    "website_url": "https://www.qweb.dev"
+   },
+   {
+    "description": "Queen’s Women in Computing (QWIC) is a student-run organization at Queen’s University dedicated to empowering women and historically underrepresented groups in the tech industry. Our mission is to foster an inclusive and supportive community where individuals with a passion for technology can connect, grow, and achieve their full potential.",
+    "exec_contact_email": "qwic_chair@compsa.queensu.ca",
+    "id": "52a41a6a-4f3f-48f4-bf98-ab45e1d93ee7",
+    "instagram": "https://www.instagram.com/queenswic",
+    "linkedin": "https://www.linkedin.com/company/queens-qwic/",
+    "logo_url": "logos/qwic.jpg\r\n",
+    "name": "Queen's Women In Computing",
+    "slug": null,
+    "website_url": "https://qwic.org"
+   }
+  ],
+  "openings": [],
+  "origin_url": "https://compsa.ca/ccr",
+  "via": "live"
+ },
+ "source": "queens-compsa",
+ "via": "live"
+}

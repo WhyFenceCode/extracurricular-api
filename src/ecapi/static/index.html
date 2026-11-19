@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extracurricular API</title>
+<style>
+  :root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a65; --line:#e3e1da; --accent:#2f5d8a; --code:#f1efe8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16171a; --fg:#e8e6e1; --muted:#9a988f; --line:#2c2d31; --accent:#8db7e0; --code:#202125; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui, -apple-system, Segoe UI, sans-serif; }
+  main { max-width: 880px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; } h2 { font-size: 1.15rem; margin-top: 36px; } h3 { font-size: 1rem; margin: 20px 0 6px; }
+  p.lede { color: var(--muted); margin-top: 0; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .86rem; background: var(--code); border-radius: 4px; }
+  code { padding: 1px 5px; word-break: break-word; } pre { padding: 12px; overflow-x: auto; max-height: 420px; }
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; } td, th { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: .8rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  label { display: block; font-size: .8rem; color: var(--muted); }
+  select { width: 100%; padding: 6px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; font: inherit; }
+  a { color: var(--accent); } #url { word-break: break-all; }
+  .seg { white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Extracurricular API</h1>
+  <p class="lede">Free JSON listing of university clubs, design teams, conferences and more. Collected from each school's own public directories, with an attempted refresh every week (check <code>data_as_of</code> for actual freshness). No key, no sign-up: just fetch a URL.</p>
+
+  <h2>Endpoints</h2>
+  <p>All paths are relative to this page. <code>{school}</code> is a school id from <a href="v1/schools.json">v1/schools.json</a> (currently <code>queens</code>).</p>
+  <table>
+    <tr><th>What you want</th><th>Endpoint</th></tr>
+    <tr><td>Which schools are covered</td><td><a href="v1/schools.json"><code>v1/schools.json</code></a></td></tr>
+    <tr><td>A school's faculties, data sources, freshness, and every valid filter value</td><td><a href="v1/queens/info.json"><code>v1/{school}/info.json</code></a></td></tr>
+    <tr><td>Everything at a school</td><td><a href="v1/queens/all.json"><code>v1/{school}/all.json</code></a></td></tr>
+    <tr><td>One activity</td><td><a href="v1/queens/item/engsoc-qset.json"><code>v1/{school}/item/{id}.json</code></a></td></tr>
+    <tr><td>Activities matching filters</td><td><a href="v1/queens/filter/fac-engineering/sub-any/type-design-team/app-any/first-any.json"><code>v1/{school}/filter/fac-…/sub-…/type-…/app-…/first-….json</code></a></td></tr>
+    <tr><td>All tags, with counts</td><td><a href="v1/queens/tags.json"><code>v1/{school}/tags.json</code></a></td></tr>
+    <tr><td>Activities with one tag</td><td><a href="v1/queens/tag/robotics.json"><code>v1/{school}/tag/{tag}.json</code></a></td></tr>
+  </table>
+
+  <h3>Filter segments</h3>
+  <p>A filter URL always has all five segments, in this order. Each names what it filters, and <code>-any</code> means "don't filter on this".</p>
+  <table>
+    <tr><th>#</th><th>Segment</th><th>Values</th></tr>
+    <tr><td>1</td><td class="seg"><code>fac-</code> faculty</td><td><code>fac-any</code>, <code>fac-general</code> (open to every faculty), <code>fac-arts-science</code>, <code>fac-business</code>, <code>fac-engineering</code>, <code>fac-health-sciences</code>, <code>fac-education</code>, <code>fac-law</code>, <code>fac-graduate</code></td></tr>
+    <tr><td>2</td><td class="seg"><code>sub-</code> subfaculty</td><td><code>sub-any</code>, or a programme inside the chosen faculty: <code>sub-computing</code>, <code>sub-commerce</code>, <code>sub-civil-engineering</code>, … (listed per faculty in <code>info.json</code>)</td></tr>
+    <tr><td>3</td><td class="seg"><code>type-</code></td><td><code>type-any</code>, <code>type-club</code>, <code>type-team</code>, <code>type-design-team</code>, <code>type-discipline-club</code>, <code>type-committee</code>, <code>type-conference</code>, <code>type-competition</code></td></tr>
+    <tr><td>4</td><td class="seg"><code>app-</code> applications</td><td><code>app-open</code> (accepting now), <code>app-closed</code>, <code>app-unknown</code>, <code>app-any</code></td></tr>
+    <tr><td>5</td><td class="seg"><code>first-</code> first-years</td><td><code>first-focused</code> (made for first-years), <code>first-friendly</code> (first-years can join, includes focused), <code>first-no</code>, <code>first-unknown</code>, <code>first-any</code></td></tr>
+  </table>
+
+  <h2>Build a query</h2>
+  <div class="grid" id="controls"></div>
+  <p><a id="url" href="#"></a></p>
+  <pre id="out">Loading…</pre>
+</main>
+<script>
+const school = "queens", dims = ["faculty", "subfaculty", "type", "app", "first"];
+const controls = document.getElementById("controls"), out = document.getElementById("out"), link = document.getElementById("url");
+let INFO = null;
+function path() { return `v1/${school}/filter/` + dims.map(d => document.getElementById(d).value).join("/") + ".json"; }
+function fillOptions(sel, values, counts) {
+  sel.innerHTML = "";
+  for (const v of values) {
+    const o = document.createElement("option"); o.value = v;
+    o.textContent = v.endsWith("-any") ? v : `${v} (${counts[v] || 0})`; sel.appendChild(o);
+  }
+}
+function syncSubfaculty() {
+  const fac = document.getElementById("faculty").value;
+  fillOptions(document.getElementById("subfaculty"), INFO.filters.subfaculty.by_faculty[fac], INFO.filters.subfaculty.counts);
+}
+async function run() {
+  const p = path(); link.href = p; link.textContent = p;
+  try {
+    const j = await (await fetch(p)).json();
+    out.textContent = `count: ${j.count}\n\n` + j.items.slice(0, 25).map(i =>
+      `${i.name}  [${i.type}, ${i.faculty}${i.subfaculty ? "/" + i.subfaculty : ""}]  open=${i.applications_open}  first_year=${i.eligibility.first_year}`
+    ).join("\n") + (j.count > 25 ? `\n… ${j.count - 25} more` : "");
+  } catch (e) { out.textContent = "Request failed: " + e; }
+}
+fetch(`v1/${school}/info.json`).then(r => r.json()).then(info => {
+  INFO = info;
+  for (const d of dims) {
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `<label for="${d}">${d}</label>`;
+    const sel = document.createElement("select"); sel.id = d;
+    if (d !== "subfaculty") fillOptions(sel, info.filters[d].values, info.filters[d].counts);
+    sel.onchange = d === "faculty" ? () => { syncSubfaculty(); run(); } : run;
+    wrap.appendChild(sel); controls.appendChild(wrap);
+  }
+  syncSubfaculty();
+  run();
+}).catch(e => { out.textContent = "Could not load info.json: " + e; });
+</script>
+</body>
+</html>
