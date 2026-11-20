@@ -31,6 +31,16 @@ from .schema import API_VERSION, Item, ItemType
 
 V = f"v{API_VERSION}"  # every path of the current API version lives under this prefix
 
+# Shown on the site, in the docs and in v1/index.json + every info.json. Keep the pages in sync:
+# tests/test_site_pages.py checks every place carries this text.
+DISCLAIMER = (
+    "This is an independent project. It is not affiliated with, endorsed by, or sponsored by any "
+    "school, student government, society or club whose information it lists. School, society and "
+    "club names belong to their respective owners and are used only to identify them. Information "
+    "comes from their public directories and may be out of date or wrong: always confirm on the "
+    "original listing."
+)
+
 DIMENSIONS = ["faculty", "subfaculty", "type", "app", "first"]
 APP_VALUES = ["app-any", "app-open", "app-rolling", "app-closed", "app-unknown"]
 FIRST_VALUES = ["first-any", "first-focused", "first-friendly", "first-no", "first-unknown"]
@@ -195,6 +205,7 @@ def build_school(out: Path, school_info: dict, items: list[Item], sources_meta: 
         school, as_of,
         endpoint="info",
         school_info={k: v for k, v in school_info.items() if k != "faculties"},
+        disclaimer=DISCLAIMER,
         count=len(items),
         faculties=faculty_info,
         sources=sources_meta,
@@ -232,6 +243,7 @@ def build_root(out: Path, schools: list[dict]) -> None:
         "endpoint": "index",
         "versions": "versions.json",
         "about": "Static JSON API of university extracurriculars. All paths are relative to this site's root.",
+        "disclaimer": DISCLAIMER,
         "schools": [s["id"] for s in schools],
         "endpoints": endpoint_guide(),
         "filter_segments": {

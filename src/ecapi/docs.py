@@ -129,6 +129,8 @@ def page_index() -> str:
 Reference for API version **{V}**. Everything here is generated from the same code that
 produces the JSON, so it always matches what the API returns.
 
+> **Not affiliated with any school.** {build.DISCLAIMER}
+
 | Page | What's in it |
 |---|---|
 | [Endpoints](endpoints.md) | Every URL you can request, with examples |
@@ -451,6 +453,8 @@ def page_school(sid: str, mod) -> str:
     return GENERATED + f"""# {info['name']} (`{sid}`)
 
 {info.get('location', '')}
+
+> **Not affiliated with {info['name']}.** {build.DISCLAIMER}
 
 - Everything: `{V}/{sid}/all.json`
 - Live counts, freshness and filter values: `{V}/{sid}/info.json`

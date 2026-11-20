@@ -4,6 +4,8 @@ A free JSON API of university extracurriculars: clubs, design teams, sports club
 competitions and committees. The data comes from each school's own public directories, and we
 attempt to refresh it every week.
 
+> **Not affiliated with any school.** This is an independent project. It is not affiliated with, endorsed by, or sponsored by any school, student government, society or club whose information it lists. School, society and club names belong to their respective owners and are used only to identify them. Information comes from their public directories and may be out of date or wrong: always confirm on the original listing.
+
 There's no API key, no sign-up and no rate limit. Every endpoint is a plain JSON file you can
 `fetch()`, from a browser or a server, and CORS is open.
 

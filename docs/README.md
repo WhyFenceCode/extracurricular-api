@@ -5,6 +5,8 @@
 Reference for API version **v1**. Everything here is generated from the same code that
 produces the JSON, so it always matches what the API returns.
 
+> **Not affiliated with any school.** This is an independent project. It is not affiliated with, endorsed by, or sponsored by any school, student government, society or club whose information it lists. School, society and club names belong to their respective owners and are used only to identify them. Information comes from their public directories and may be out of date or wrong: always confirm on the original listing.
+
 | Page | What's in it |
 |---|---|
 | [Endpoints](endpoints.md) | Every URL you can request, with examples |

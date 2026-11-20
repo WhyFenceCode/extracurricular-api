@@ -4,6 +4,8 @@
 
 Kingston, Ontario, Canada
 
+> **Not affiliated with Queen's University.** This is an independent project. It is not affiliated with, endorsed by, or sponsored by any school, student government, society or club whose information it lists. School, society and club names belong to their respective owners and are used only to identify them. Information comes from their public directories and may be out of date or wrong: always confirm on the original listing.
+
 - Everything: `v1/queens/all.json`
 - Live counts, freshness and filter values: `v1/queens/info.json`
 

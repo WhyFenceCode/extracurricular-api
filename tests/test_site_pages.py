@@ -56,6 +56,25 @@ def test_page_links_resolve(site, page):
         assert target.exists(), f"{page}: broken link {href}"
 
 
+def _plain(s: str) -> str:
+    return " ".join(re.sub(r"<[^>]+>", " ", s).split())
+
+
+def test_disclaimer_everywhere(site):
+    """Not-affiliated notice: one text (build.DISCLAIMER), shown in every public place."""
+    import json
+
+    text = build.DISCLAIMER
+    for page in ("index.html", "privacy.html"):
+        assert text in _plain((site / page).read_text(encoding="utf-8")), f"{page} lacks the disclaimer"
+    assert json.loads((site / "v1/index.json").read_text(encoding="utf-8"))["disclaimer"] == text
+    assert json.loads((site / "v1/queens/info.json").read_text(encoding="utf-8"))["disclaimer"] == text
+    root = Path(build.__file__).parents[2]
+    assert text in " ".join((root / "README.md").read_text(encoding="utf-8").split())
+    for md in ("docs/README.md", "docs/schools/queens.md"):
+        assert text in (root / md).read_text(encoding="utf-8"), md
+
+
 def test_exclude_removes_item_and_tolerates_vanished_ids(snapshots):
     ids = {i.id for i in queens.build_items(snapshots, {})}
     assert "ams-debate-union" in ids

@@ -21,12 +21,15 @@
   select { width: 100%; padding: 6px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; font: inherit; }
   a { color: var(--accent); } #url { word-break: break-all; }
   .seg { white-space: nowrap; }
+  .notice { border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px 12px; font-size: .92rem; color: var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <h1>Extracurricular API</h1>
   <p class="lede">Free JSON listing of university clubs, design teams, conferences and more. Collected from each school's own public directories, with an attempted refresh every week (check <code>data_as_of</code> for actual freshness). No key, no sign-up: just fetch a URL.</p>
+
+  <p class="notice" id="disclaimer"><strong>Not affiliated with any school.</strong> This is an independent project. It is not affiliated with, endorsed by, or sponsored by any school, student government, society or club whose information it lists. School, society and club names belong to their respective owners and are used only to identify them. Information comes from their public directories and may be out of date or wrong: always confirm on the original listing.</p>
 
   <h2>Endpoints</h2>
   <p>All paths are relative to this page. <code>{school}</code> is a school id from <a href="v1/schools.json">v1/schools.json</a> (currently <code>queens</code>).</p>
@@ -58,6 +61,7 @@
   <pre id="out">Loading…</pre>
 
   <footer style="margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem">
+    Independent project, not affiliated with any school or student organisation listed.
     No cookies, analytics or tracking. <a href="privacy.html">Privacy</a> · <a href="versions.json">API versions</a>
   </footer>
 </main>
